@@ -70,15 +70,33 @@ class Extractor(BaseModule):
         return ""
 
     @retry(wait_random_min=500, wait_random_max=3500, stop_max_attempt_number=5)
-    def download_from_url(self, url: str, to_filename: str = None, verbose=True) -> str:
+    def download_from_url(self, url: str, to_filename: str = None, verbose=True, tmp_dir_path: str = None) -> str:
         """
         downloads a URL to provided filename, or inferred from URL, returns local filename
         """
+        base_path = None
+        if tmp_dir_path:
+            base_path = tmp_dir_path
+        elif hasattr(self, "tmp_dir") and hasattr(self.tmp_dir, "name"): # self.tmp_dir is a TemporaryDirectory
+            base_path = self.tmp_dir.name
+        else:
+            raise ValueError("tmp_dir_path must be provided or self.tmp_dir must be a TemporaryDirectory object.")
+
         if not to_filename:
             to_filename = url.split("/")[-1].split("?")[0]
-            if len(to_filename) > 64:
-                to_filename = to_filename[-64:]
-        to_filename = os.path.join(self.tmp_dir, to_filename)
+            if len(to_filename) > 64: # limit filename length
+                # try to preserve extension
+                name, ext = os.path.splitext(to_filename)
+                if len(ext) > 10: # no reasonable extension
+                    ext = ""
+                to_filename = name[:64-len(ext)] + ext
+
+        # Construct the full path for the download
+        # If to_filename is absolute, os.path.join will use it directly.
+        # If it's relative, it will be joined with base_path.
+        # To ensure it's always relative to base_path, we make to_filename relative first.
+        to_filename = os.path.join(base_path, os.path.basename(to_filename))
+
         if verbose:
             logger.debug(f"downloading {url[0:50]=} {to_filename=}")
         headers = {
