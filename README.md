@@ -13,6 +13,8 @@
 
 Auto Archiver is a Python tool to automatically archive content on the web in a secure and verifiable way. It takes URLs from different sources (e.g. a CSV file, Google Sheets, command line etc.) and archives the content of each one. It can archive social media posts, videos, images and webpages. Content can be enriched, then saved either locally or remotely (S3 bucket, Google Drive). The status of the archiving process can be appended to a CSV report, or if using Google Sheets – back to the original sheet.
 
+It now also includes a simple web interface featuring an Excel-like sheet for entering URLs. Collections are stored locally so you can save and reload them without needing Google Sheets.
+
 <div class="hidden_rtd">
   
 **[See the Auto Archiver documentation for more information.](https://auto-archiver.readthedocs.io/en/latest/)**
@@ -36,7 +38,20 @@ Or pip:
 
 `pip install auto-archiver && auto-archiver --help`
 
+You can also install from source using the helper scripts in `scripts/`:
+
+```bash
+# macOS/Linux
+bash scripts/setup_mac.sh
+
+# Windows PowerShell
+PowerShell -ExecutionPolicy Bypass -File scripts/setup_windows.ps1
+```
+
 ## Contributing
 
 We welcome contributions to the Auto Archiver project! See the [Contributing Guide](https://auto-archiver.readthedocs.io/en/latest/contributing.html) for how to get involved!
+
+Please see our [Code of Conduct](CODE_OF_CONDUCT.md) for community guidelines.
+If you use Auto Archiver in your research, please cite it as described in [CITATION.cff](CITATION.cff).
 

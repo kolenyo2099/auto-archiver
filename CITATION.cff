@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+authors:
+  - family-names: Bellingcat
+    given-names: ""
+title: "Auto Archiver"
+message: "If you use Auto Archiver in your research, please cite it as below."
+version: "1.0.1"
+url: "https://github.com/bellingcat/auto-archiver"
