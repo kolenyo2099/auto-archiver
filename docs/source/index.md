@@ -14,4 +14,5 @@ how_to
 contributing
 development/developer_guidelines
 autoapi/index.rst
+user_interface_strategy
 ```

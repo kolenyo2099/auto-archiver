@@ -44,6 +44,17 @@ That's it, all done! You're now ready to set up [your configuration file](config
 3. Test it's installed with `auto-archiver --help`
 4. Install other local dependency requirements (for example `ffmpeg`, `firefox`)
 
+Alternatively you can install from source using our setup scripts which create a
+virtual environment and install the project:
+
+```bash
+# macOS/Linux
+bash scripts/setup_mac.sh
+
+# Windows PowerShell
+PowerShell -ExecutionPolicy Bypass -File scripts/setup_windows.ps1
+```
+
 After this, you're ready to set up your [your configuration file](configurations.md), or if you want to use the recommended defaults, then you can [run Auto Archiver immediately](setup.md#running-a-local-install).
 
 ### Installing Local Requirements
