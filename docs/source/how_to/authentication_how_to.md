@@ -126,7 +126,7 @@ This feature is enabled for the Generic Archiver via two yt-dlp plugins:
 - **Provider plugin**: [bgutil-ytdlp-pot-provider](https://github.com/Brainicism/bgutil-ytdlp-pot-provider)  
   Includes both a Python plugin and a **Node.js server or script** to generate the token.
 
-These are installed in our Poetry environment.
+These are included when installing Auto Archiver with dependencies.
 
 ### Integration Methods
 

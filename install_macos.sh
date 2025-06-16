@@ -15,17 +15,9 @@ else
     echo "✅ uv found: $(command -v uv)"
 fi
 
-# --- Check for Poetry ---
-if ! command -v poetry &> /dev/null; then
-    echo "❌ Error: Poetry is not installed."
-    echo "Please install Poetry first. See: https://python-poetry.org/docs/#installation"
-    exit 1
-else
-    echo "✅ Poetry found: $(command -v poetry)"
-fi
+# Poetry is no longer required for installation - using uv instead
 
 VENV_DIR=".venv"
-REQUIREMENTS_FILE="requirements.txt"
 
 # --- Create Virtual Environment with uv ---
 if [ -d "$VENV_DIR" ]; then
@@ -42,29 +34,32 @@ fi
 source "$VENV_DIR/bin/activate"
 echo "✅ Virtual environment activated for script execution."
 
-# --- Export Dependencies using Poetry ---
-echo "📦 Exporting dependencies from pyproject.toml to $REQUIREMENTS_FILE using Poetry..."
-# Export production dependencies. Add --dev if development dependencies are also needed.
-# Using --without-credentials to avoid any potential credential leakage if plugins use them in pyproject.toml
-poetry export -f requirements.txt --output "$REQUIREMENTS_FILE" --without-hashes --without-credentials
-echo "✅ Dependencies exported."
+# --- Install Dependencies with uv directly from pyproject.toml ---
+echo "💾 Installing dependencies for Auto Archiver Slack Bot using uv..."
+# Install main dependencies plus Slack bot requirements
+uv pip install -e .[slack]
+echo "✅ Dependencies installed (including Slack bot support)."
 
-# --- Install Dependencies with uv ---
-echo "💾 Installing dependencies from $REQUIREMENTS_FILE using uv..."
-uv pip install -r "$REQUIREMENTS_FILE"
-echo "✅ Dependencies installed."
-
-# --- Cleanup (Optional: remove requirements.txt) ---
-# echo "🧹 Cleaning up temporary $REQUIREMENTS_FILE..."
-# rm "$REQUIREMENTS_FILE"
-# echo "✅ Cleanup complete."
-# Decided to keep requirements.txt for now, can be added to .gitignore
+# --- No cleanup needed ---
+# Dependencies are installed directly from pyproject.toml, so no temporary files to clean up
 
 echo ""
-echo "🎉 Installation complete!"
-echo "To activate the virtual environment in your terminal, run:"
-echo "source $VENV_DIR/bin/activate"
+echo "🎉 Auto Archiver Slack Bot installation complete!"
 echo ""
-echo "You can then run the application using 'run_macos.sh' (once created)."
+echo "📋 Next steps to set up your Slack bot:"
+echo "1. Activate the virtual environment:"
+echo "   source $VENV_DIR/bin/activate"
+echo ""
+echo "2. Create your .env file with Slack tokens:"
+echo "   cp .env.example .env  # (if available)"
+echo "   # Then edit .env with your SLACK_BOT_TOKEN and SLACK_APP_TOKEN"
+echo ""
+echo "3. Test the auto-archiver command:"
+echo "   auto-archiver --help"
+echo ""
+echo "4. Run your Slack bot:"
+echo "   python slack_bot.py"
+echo ""
+echo "📚 See the README.md for detailed Slack app setup instructions."
 
 exit 0

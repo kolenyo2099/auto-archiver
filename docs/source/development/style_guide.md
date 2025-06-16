@@ -11,7 +11,8 @@ We have a pre-commit hook to run the formatter before you commit.
 This requires you to set it up once locally, then it will run automatically when you commit changes.
 
 ```shell
-poetry run pre-commit install
+# After activating your virtual environment with: source .venv/bin/activate
+pre-commit install
 ```
 
 Ruff can also be to run automatically.

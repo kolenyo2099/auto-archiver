@@ -36,18 +36,17 @@ Or pip:
 
 `pip install auto-archiver && auto-archiver --help`
 
-### Quick Setup for macOS (using `uv`)
+### Quick Setup for macOS Slack Bot (using `uv`)
 
-For macOS users, convenience scripts are provided to set up the environment using `uv` (a fast Python installer and resolver) and run the application.
+For macOS users, this setup creates a Slack bot version of Auto Archiver using `uv` (a fast Python installer and resolver).
 
 **Prerequisites:**
-- Make sure you have `uv` and `Poetry` installed.
+- Make sure you have `uv` installed.
   - To install `uv`: `pip install uv` (or see [uv's official documentation](https://github.com/astral-sh/uv)).
-  - To install `Poetry`: See [Poetry's official documentation](https://python-poetry.org/docs/#installation).
 
 **1. Installation:**
 
-This script will create a virtual environment named `.venv` in the project root, export dependencies from `pyproject.toml` (using Poetry), and install them into the virtual environment using `uv`.
+This script will create a virtual environment, install Auto Archiver with Slack bot dependencies, and set up the necessary files.
 
 ```bash
 chmod +x install_macos.sh
@@ -59,18 +58,48 @@ After installation, activate the environment in your terminal to run commands ma
 source .venv/bin/activate
 ```
 
-**2. Running the Application:**
+**2. Setting up the Slack Bot:**
 
-This script activates the virtual environment and starts the Extractor UI backend. It also provides instructions for running the main `auto_archiver` CLI commands.
+After installation, follow the setup instructions displayed by the install script:
 
+1. **Activate the environment:**
+   ```bash
+   source .venv/bin/activate
+   ```
+
+2. **Create a Slack App** (if you haven't already):
+   - Go to [api.slack.com/apps](https://api.slack.com/apps)
+   - Create a new app with Socket Mode enabled
+   - Add required scopes: `chat:write`, `commands`
+   - Create a slash command (e.g., `/archive`)
+   - Get your Bot Token (`xoxb-...`) and App Token (`xapp-...`)
+
+3. **Configure your bot:**
+   ```bash
+   # Create .env file with your Slack tokens
+   echo 'SLACK_BOT_TOKEN="xoxb-your-bot-token"' > .env
+   echo 'SLACK_APP_TOKEN="xapp-your-app-token"' >> .env
+   ```
+
+4. **Run your Slack bot:**
+   ```bash
+   python slack_bot.py
+   ```
+
+5. **Test in Slack:**
+   ```
+   /archive https://example.com
+   ```
+
+**Optional UI Backend:**
+If you want to run the optional web UI backend:
 ```bash
+# Install UI dependencies first
+uv pip install -e .[ui]
+# Then run the UI
 chmod +x run_macos.sh
 ./run_macos.sh
 ```
-
-- The Extractor UI backend will typically be available at `http://localhost:5001`.
-- Follow the on-screen instructions to run `auto_archiver` commands (like `orchestrate` or `feed`) in a new terminal, after activating the `.venv` environment there as well.
-- Press `Ctrl+C` in the terminal where `run_macos.sh` is running to stop the UI backend.
 
 ## Contributing
 

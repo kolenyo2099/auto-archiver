@@ -67,6 +67,37 @@ EXTRACTOR_MAP = {
     "twitter_api_extractor": TwitterApiExtractor,
 }
 
+@app.route('/')
+def home():
+    """Root endpoint with API documentation"""
+    return """
+    <html>
+    <head><title>Auto Archiver UI Backend</title></head>
+    <body>
+        <h1>Auto Archiver UI Backend</h1>
+        <p>This is the backend API for Auto Archiver's Extractor UI.</p>
+        
+        <h2>Available API Endpoints:</h2>
+        <ul>
+            <li><strong>GET /api/ui/extractors</strong> - Get available extractors and their schemas</li>
+            <li><strong>POST /api/ui/extract</strong> - Run content extraction</li>
+        </ul>
+        
+        <h2>Example Usage:</h2>
+        <p><strong>Get extractors:</strong><br>
+        <code>curl http://localhost:5001/api/ui/extractors</code></p>
+        
+        <p><strong>Extract content:</strong><br>
+        <code>curl -X POST http://localhost:5001/api/ui/extract \\<br>
+        -H "Content-Type: application/json" \\<br>
+        -d '{"extractor_id": "generic_extractor", "url": "https://example.com", "output_path": "/tmp/output"}'</code></p>
+        
+        <h3>Note:</h3>
+        <p>This is a backend API server. For a full web UI, you would need a separate frontend application that calls these endpoints.</p>
+    </body>
+    </html>
+    """
+
 @app.route('/api/ui/extractors', methods=['GET'])
 def get_extractors_schema():
     return jsonify(EXTRACTOR_SCHEMAS)

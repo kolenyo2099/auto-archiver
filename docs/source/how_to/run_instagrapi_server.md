@@ -68,12 +68,12 @@ If you'd prefer to run the server manually (without Docker), you can follow thes
 4. **Install dependencies** using the pyproject.toml file:
   
    ```bash
-   poetry install --no-root
+   uv venv && source .venv/bin/activate && uv pip install -e .
    ```
 
-5. **Run the server locally**:
+5. **Run the server locally** (after activating the virtual environment):
    ```bash
-   poetry run uvicorn src.instaserver:app --port 8000
+   uvicorn src.instaserver:app --port 8000
    ```
 
 6. **Watch for the message**:
@@ -85,7 +85,8 @@ If you'd prefer to run the server manually (without Docker), you can follow thes
 
 ### To run it again locally:
 ```bash
-poetry run uvicorn src.instaserver:app --port 8000
+# After activating the virtual environment: source .venv/bin/activate
+uvicorn src.instaserver:app --port 8000
 ```
 
 ---
@@ -109,7 +110,8 @@ Once the session file is created, you should be able to run the server without l
 
 ### To run it locally (from scripts/instagrapi_server):
 ```bash
-poetry run uvicorn src.instgrapinstance.instaserver:app --port 8000
+# After activating the virtual environment: source .venv/bin/activate
+uvicorn src.instgrapinstance.instaserver:app --port 8000
 ```
 
 ---

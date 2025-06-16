@@ -12,14 +12,12 @@ build:
     nodejs: "22"
   jobs:
     post_install:
-      - pip install poetry
-      # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
-      # VIRTUAL_ENV needs to be set manually for now.
-      # See https://github.com/readthedocs/readthedocs.org/pull/11152/
-      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --with docs
+      - pip install uv
+      # Install the package with docs dependencies using uv
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH uv pip install -e .[docs]
 
       # generate the config editor page. Schema then HTML
-      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry run python scripts/generate_settings_schema.py
+      - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH python scripts/generate_settings_schema.py
       # install node dependencies and build the settings
       - cd scripts/settings && npm install && npm run build && yes | cp -v dist/index.html ../../docs/source/installation/settings.html && cd ../..
 

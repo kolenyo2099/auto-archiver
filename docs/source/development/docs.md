@@ -7,14 +7,10 @@ To build the documentation locally, run the following commands:
 **Install required dependencies:**
 - Install the docs group of dependencies: 
 ```shell
-# only the docs dependencies
-poetry install --only docs
-
-# or for all dependencies 
-poetry install
+# Create virtual environment and install all dependencies (including docs)
+uv venv && source .venv/bin/activate && uv pip install -e .[docs]
 ```
-- Either use [poetry-plugin-shell](https://github.com/python-poetry/poetry-plugin-shell) to activate the virtual environment: `poetry shell`
-- Or prepend the following commands with `poetry run`
+- Activate the virtual environment in your terminal: `source .venv/bin/activate`
 
 **Create the documentation:**
 - Build the documentation: 

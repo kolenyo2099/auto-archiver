@@ -8,10 +8,10 @@
 
 ## Running Tests 
 
-1. Make sure you've installed the dev dependencies with `pytest install --with dev`
+1. Make sure you've installed the dev dependencies with `uv pip install -e .[dev]` (after activating your virtual environment)
 2. Tests can be run as follows:
 ```
-#### Command prefix of 'poetry run' removed here for simplicity
+#### Make sure your virtual environment is activated with: source .venv/bin/activate
 # run core tests
 pytest -ra -v -m "not download"
 # run download tests

@@ -7,21 +7,22 @@ This section of the documentation provides guidelines for developers who want to
 ## Developer Install
 
 1. Clone the project using `git clone https://github.com/bellingcat/auto-archiver.git` 
-2. Install poetry using `curl -sSL https://install.python-poetry.org | python3 -` ([other installation methods](https://python-poetry.org/docs/#installation))
-3. Install dependencies with `poetry install`
+2. Install uv using `pip install uv` (or see [uv's official documentation](https://github.com/astral-sh/uv))
+3. Create virtual environment and install dependencies with `uv venv && source .venv/bin/activate && uv pip install -e .`
 
 ## Running 
-4. Run the code with `poetry run auto-archiver [my args]`
+4. Run the code with `auto-archiver [my args]` (after activating the virtual environment)
 
 ```{note}
-Add the plugin [poetry-shell-plugin](https://github.com/python-poetry/poetry-plugin-shell) and run `poetry shell` to activate the virtual environment.
-This allows you to run the auto-archiver without the `poetry run` prefix.
+To activate the virtual environment in any new terminal session:
+`source .venv/bin/activate`
+This allows you to run the auto-archiver directly without any prefix.
 ```
 
 ### Optional Development Packages
 
 Install development packages (used for unit tests etc.) using:
-`poetry install -with dev`
+`uv pip install -e .[dev]`
 
 
 ```{toctree}
