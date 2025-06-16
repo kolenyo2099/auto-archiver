@@ -36,6 +36,13 @@ import Grid from '@mui/material/Grid2';
 import { parseDocument, Document, YAMLSeq, YAMLMap, Scalar } from 'yaml'
 import StepCard from './StepCard';
 
+// Import for Extractor UI Page
+import ExtractorUIPage from './pages/ExtractorUIPage';
+// Import MantineProvider and CSS if not already globally available
+// This is a guess, actual Mantine setup might be in index.tsx or a layout component
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+
 
 function FileDrop({ setYamlFile }: { setYamlFile: React.Dispatch<React.SetStateAction<Document>> }) {
 
@@ -245,6 +252,7 @@ function ModuleTypes({ stepType, setEnabledModules, enabledModules, configValues
 
 
 export default function App() {
+  const [currentView, setCurrentView] = useState<'yamlConfig' | 'extractorUi'>('yamlConfig');
   const [yamlFile, setYamlFile] = useState<Document>(new Document());
   const [enabledModules, setEnabledModules] = useState<{}>(Object.fromEntries(Object.keys(steps).map(type => [type, steps[type].map((name: string) => [name, false])])));
   const [configValues, setConfigValues] = useState<{
@@ -405,8 +413,38 @@ export default function App() {
 
 
 
+  // Render different UI based on currentView
+  if (currentView === 'extractorUi') {
+    // It's assumed MantineProvider is root-level or ExtractorUIPage includes it.
+    // For safety, wrapping ExtractorUIPage with MantineProvider here if it's not already global.
+    // If MantineProvider is already global (e.g. in index.tsx), this one is redundant.
+    return (
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+        <Container maxWidth="lg" sx={{py: 2}}> {/* Added some padding */}
+           <Button
+             variant="outlined"
+             onClick={() => setCurrentView('yamlConfig')}
+             sx={{ mb: 2 }} // Added margin bottom
+           >
+            Back to YAML Configurator
+           </Button>
+          <ExtractorUIPage />
+        </Container>
+      </MantineProvider>
+    );
+  }
+
+  // Original YAML Configurator UI
   return (
     <Container maxWidth="lg">
+      <Box sx={{ my: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          variant="outlined"
+          onClick={() => setCurrentView('extractorUi')}
+        >
+          Go to Extractor UI (New)
+        </Button>
+      </Box>
       <Box sx={{ my: 4 }}>
         <Box sx={{ my: 4 }}>
           <Typography variant="h5" >
